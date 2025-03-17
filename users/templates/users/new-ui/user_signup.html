@@ -1,0 +1,92 @@
+{% extends 'users/new-ui/user_base.html' %}
+{% load static %}
+
+{% block content %}
+  {{ block.super }}
+  <script nonce="{{request.csp_nonce}}">
+    gaClientIdTrackingIframe('users.signup.view');
+    // Give time for `ls_gaclient_id` to be set
+    setTimeout(() => {
+      const ls_gaclient_id = sessionStorage.getItem('ls_gaclient_id');
+      __lsa('users.signup.view', { ls_gaclient_id });
+    }, 2000);
+  </script>
+{% endblock %}
+
+{% block user_content %}
+  <div class="form-wrapper">
+    <h2>注册</h2>
+    <form id="signup-form"
+        action="{% url 'user-signup' %}?next={{ next }}{% if token %}&token={{ token }}{% endif %}"
+        method="post"
+    >
+    {% csrf_token %}
+      <div class="input-wrapper">
+        <label>邮箱地址</label>
+        <input type="text" class="lsf-input-ls" name="email" id="email" value="{{ user_form.data.email }}">
+        {% if user_form.errors.email %}
+          <ul class="field_errors">
+            {% for error in user_form.errors.email %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        </div>
+      <div class="input-wrapper">
+        <label>密码</label>
+        <input type="password" class="lsf-input-ls" name="password" id="password">
+        {% if user_form.errors.password %}
+          <ul class="field_errors">
+            {% for error in user_form.errors.password %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      <div class="input-wrapper">
+        <label>您是如何了解到Label Studio的？</label>
+        <select class="lsf-select-ls" name="how_find_us" id="how_find_us">
+          <option disabled value="" {% if not form.data.how_find_us %}selected{% endif %}>请选择选项</option>
+          {% for choice in found_us_options %}
+            <option value="{{ choice.1 }}" {% if choice.1 == user_form.data.how_find_us %}selected{% endif %}>{{ choice.1 }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="input-wrapper" id="elaborateContainer" {% if user_form.data.how_find_us != elaborate %}style="display:none;"{% endif %}> 
+        <label>请详细说明</label>
+        <input class="lsf-input-ls" name="elaborate" id="elaborate" {% if user_form.data.how_find_us == elaborate %}value="{{ user_form.data.elaborate }}"{% endif %}>
+        </select>
+      </div>
+      <div class="form-group">
+        <input name="allow_newsletters" id="allow_newsletters" type="hidden" value="{% if user_form.data.allow_newsletters == 'false' %}false{% else %}true{% endif %}">
+        <input name="allow_newsletters_visual" id="allow_newsletters_visual" class="lsf-checkbox-ls"
+                type="checkbox" style="width: auto" {% if user_form.data.allow_newsletters == 'false' %}{% else %}checked="checked{% endif %}"
+                onchange="document.getElementById('allow_newsletters').value=document.getElementById('allow_newsletters_visual').checked">
+        <label for="allow_newsletters_visual" style="display: inline-block; cursor: pointer;">
+          获取来自Heidi的最新消息
+          <img src="{{ settings.HOSTNAME }}{% static 'images/heidi.png' %}" alt="Heidi"
+              width="25" style="position: absolute; right: -2.5em; top: -.25rem;">
+        </label>
+      </div>
+
+      {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+          <p class="error">
+            {{ error }}
+          </p>
+        {% endfor %}
+      {% endif %}
+      <p><button type="submit" aria-label="创建账号" class="lsf-button-ls lsf-button-ls_look_primary">创建账号</button></p>
+    </form>
+  </div>
+  <div class="text-wrapper">
+    <p class="">已有账号？</p>
+    <a href="{% url 'user-login' %}{% querystring %}">登录</a>
+  </div>
+  <script>
+    document.querySelector("#how_find_us").addEventListener('change', function(e) {
+      const isOther = e.target.value == '{{ elaborate }}';
+      document.querySelector("#elaborateContainer").style.display = isOther ? 'block' : 'none';
+    });
+  </script>
+{% endblock %}

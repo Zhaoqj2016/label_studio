@@ -1,0 +1,177 @@
+{% load static %}
+{% load i18n %}
+
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content=""/>
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, shrink-to-fit=no">
+
+  <!-- Address string color -->
+  <meta name="theme-color" content="#272727"> <!-- Chrome, Firefox OS and Opera -->
+  <meta name="msapplication-navbutton-color" content="#272727">  <!-- Windows Phone -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="#272727">  <!-- iOS Safari -->
+
+  <link href="{{settings.HOSTNAME}}{% static 'css/main.css' %}" rel="stylesheet"/>
+  {% block app-css %}
+    <link href="{{settings.FRONTEND_HOSTNAME}}/react-app/main.css?v={{ versions.backend.commit }}" rel="stylesheet">
+  {% endblock %}
+
+  <script>
+    {% get_current_language as LANGUAGE_CODE %}
+    document.documentElement.lang = "{{ LANGUAGE_CODE|default:'zh-hans' }}";
+    window.LANGUAGE_CODE = "{{ LANGUAGE_CODE|default:'zh-hans' }}";
+    {% if LANGUAGE_CODE %}
+      {% get_language_info for LANGUAGE_CODE as lang %}
+      window.LANGUAGE_NAME = "{{ lang.name_local|default:'简体中文' }}";
+    {% else %}
+      window.LANGUAGE_NAME = "简体中文";
+    {% endif %}
+    
+    // 添加全局翻译函数
+    window.translations = {
+      // 通用
+      'Cancel': '取消',
+      'Save': '保存',
+      'Delete': '删除',
+      'Edit': '编辑',
+      'Add': '添加',
+      'Remove': '移除',
+      'Search': '搜索',
+      'Filter': '筛选',
+      'Loading': '加载中',
+      'Submit': '提交',
+      'Close': '关闭',
+      'Next': '下一步',
+      'Previous': '上一步',
+      'Back': '返回',
+      'Done': '完成',
+      'Yes': '是',
+      'No': '否',
+      'OK': '确定',
+      'Confirm': '确认',
+      
+      // 导航
+      'Projects': '项目',
+      'Tasks': '任务',
+      'Annotations': '标注',
+      'Dashboard': '仪表盘',
+      'Settings': '设置',
+      'Organization': '组织',
+      'Profile': '个人资料',
+      'Logout': '退出登录',
+      'Login': '登录',
+      'Sign Up': '注册',
+      
+      // 项目相关
+      'Create Project': '创建项目',
+      'Import': '导入',
+      'Export': '导出',
+      'Project Name': '项目名称',
+      'Description': '描述',
+      'Created': '创建时间',
+      'Last Updated': '最后更新',
+      'Members': '成员',
+      'Labels': '标签',
+      'Instructions': '说明',
+      'Data Manager': '数据管理',
+      
+      // 任务相关
+      'Task ID': '任务 ID',
+      'Completed': '已完成',
+      'In Progress': '进行中',
+      'Pending': '待处理',
+      'Skipped': '已跳过',
+      'Rejected': '已拒绝',
+      'Accepted': '已接受',
+      'Total': '总计',
+    };
+    
+    // 全局翻译函数
+    window.t = function(text) {
+      if (!text) return '';
+      
+      const lang = window.LANGUAGE_CODE || 'en';
+      
+      if (lang === 'zh-hans' && window.translations[text]) {
+        return window.translations[text];
+      }
+      
+      return text;
+    };
+    
+    // 在页面加载后自动翻译
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.LANGUAGE_CODE === 'zh-hans') {
+        // 翻译按钮
+        document.querySelectorAll('button').forEach(function(el) {
+          if (el.textContent && !el.hasAttribute('data-no-i18n')) {
+            el.textContent = window.t(el.textContent.trim());
+          }
+        });
+        
+        // 翻译标题
+        document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(function(el) {
+          if (el.textContent && !el.hasAttribute('data-no-i18n')) {
+            el.textContent = window.t(el.textContent.trim());
+          }
+        });
+        
+        // 翻译链接
+        document.querySelectorAll('a').forEach(function(el) {
+          if (el.textContent && !el.hasAttribute('data-no-i18n')) {
+            el.textContent = window.t(el.textContent.trim());
+          }
+        });
+        
+        // 翻译标签
+        document.querySelectorAll('label').forEach(function(el) {
+          if (el.textContent && !el.hasAttribute('data-no-i18n')) {
+            el.textContent = window.t(el.textContent.trim());
+          }
+        });
+        
+        // 翻译占位符
+        document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(function(el) {
+          if (el.placeholder && !el.hasAttribute('data-no-i18n')) {
+            el.placeholder = window.t(el.placeholder);
+          }
+        });
+      }
+    });
+  </script>
+
+  {% block page_labeling %}
+    <title>Label Studio</title>
+    <link href="{{settings.HOSTNAME}}{% static 'images/favicon.ico' %}" rel="shortcut icon"/>
+  {% endblock %}
+
+  {% block head %}
+  {% endblock %}
+</head>
+
+<body>
+{% if LANGUAGES|length > 1 %}
+<div class="language-switcher" style="position: fixed; top: 10px; right: 10px; z-index: 1000; background: rgba(255, 255, 255, 0.8); padding: 5px; border-radius: 4px;">
+  <form action="{% url 'set_language' %}" method="post">
+    {% csrf_token %}
+    <input name="next" type="hidden" value="{{ request.path }}">
+    <select name="language" onchange="this.form.submit()">
+      {% get_current_language as CURRENT_LANGUAGE %}
+      {% get_available_languages as AVAILABLE_LANGUAGES %}
+      {% for lang_code, lang_name in LANGUAGES %}
+        <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+          {{ lang_name }}
+        </option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

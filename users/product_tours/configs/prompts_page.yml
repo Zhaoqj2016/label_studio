@@ -1,0 +1,9 @@
+steps:
+  - target: body
+    placement: center
+    title: '<div style="font-size: 24px; color: var(--grape_500)">Welcome to Prompts!</div>'
+    content: '<div style="width: 100%">Set up Prompts to help you rapidly pre-label projects.</div>'
+
+  - target: ".lsf-data-table__body-row[data-index='0'] .lsf-models-list__model-name"
+    content: '<div style="width: 100%">Click on this sample Prompt to get you started.</div>'
+    isFixed: true

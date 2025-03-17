@@ -1,0 +1,14 @@
+steps:
+  - target: '[data-testid="auto-labeling-button"]'
+    placement: bottom
+    title: 'Great news!'
+    content: >
+      You can now rapidly label this project using Prompts.
+      <br/><br/>
+      Click "Auto-Label Tasks" to set up LLM powered labeling in under a minute.
+      <br/><br/>
+      We've provided some OpenAI credits to get you started.
+    disableBeacon: true
+    locale:
+      last: "OK"
+      skip: "Don't show this message again."

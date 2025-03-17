@@ -1,0 +1,26 @@
+.container {
+  display: grid;
+  width: 100%;
+  grid-gap: 4px;
+  grid-template-columns: repeat(var(--col-count), minmax(0, 1fr));
+}
+
+.labelText {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.input {
+  display: block;
+  border: 1px solid var(--sand_300);
+  border-radius: 4px;
+  padding: 0 0 0 8px;
+  width: 80px;
+  font-size: 14px;
+  text-align: right;
+
+  &[readonly] {
+    background-color: var(--sand_100);
+    color: var(--sand_600);
+  }
+}

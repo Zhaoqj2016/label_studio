@@ -1,0 +1,441 @@
+# 简体中文翻译
+# Copyright (C) 2022 Label Studio
+msgid ""
+msgstr ""
+"Project-Id-Version: Label Studio\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-01 00:00+0000\n"
+"PO-Revision-Date: 2025-03-13 17:30+0000\n"
+"Last-Translator: Human Signal <support@humansignal.com>\n"
+"Language-Team: Chinese\n"
+"Language: zh_Hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+# 常用界面文本
+msgid "Projects"
+msgstr "项目"
+
+msgid "Tasks"
+msgstr "任务"
+
+msgid "Annotations"
+msgstr "标注"
+
+msgid "Dashboard"
+msgstr "仪表盘"
+
+msgid "Data Manager"
+msgstr "数据管理器"
+
+msgid "Settings"
+msgstr "设置"
+
+msgid "Create"
+msgstr "创建"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Edit"
+msgstr "编辑"
+
+msgid "Import"
+msgstr "导入"
+
+msgid "Export"
+msgstr "导出"
+
+msgid "Search"
+msgstr "搜索"
+
+msgid "Submit"
+msgstr "提交"
+
+msgid "Back"
+msgstr "返回"
+
+msgid "Next"
+msgstr "下一步"
+
+msgid "Previous"
+msgstr "上一步"
+
+msgid "Close"
+msgstr "关闭"
+
+msgid "Done"
+msgstr "完成"
+
+# 项目相关
+msgid "Create Project"
+msgstr "创建项目"
+
+msgid "Project Name"
+msgstr "项目名称"
+
+msgid "Description"
+msgstr "描述"
+
+msgid "Label Config"
+msgstr "标签配置"
+
+msgid "No Projects"
+msgstr "无项目"
+
+# 用户界面
+msgid "Sign In"
+msgstr "登录"
+
+msgid "Sign Up"
+msgstr "注册"
+
+msgid "Sign Out"
+msgstr "退出登录"
+
+msgid "Username"
+msgstr "用户名"
+
+msgid "Password"
+msgstr "密码"
+
+msgid "Email"
+msgstr "电子邮箱"
+
+msgid "Profile"
+msgstr "个人资料"
+
+# 标注界面
+msgid "Labeling"
+msgstr "标注"
+
+msgid "Instructions"
+msgstr "说明"
+
+msgid "Skip"
+msgstr "跳过"
+
+msgid "Submit & Next"
+msgstr "提交并继续"
+
+msgid "Update"
+msgstr "更新"
+
+# 错误与提示
+msgid "Error"
+msgstr "错误"
+
+msgid "Success"
+msgstr "成功"
+
+msgid "Warning"
+msgstr "警告"
+
+msgid "Info"
+msgstr "信息"
+
+msgid "Loading..."
+msgstr "加载中..."
+
+msgid "No results found"
+msgstr "未找到结果"
+
+# 机器学习相关
+msgid "Machine Learning"
+msgstr "机器学习"
+
+msgid "Model"
+msgstr "模型"
+
+msgid "Predictions"
+msgstr "预测"
+
+msgid "Auto-Labeling"
+msgstr "自动标注"
+
+# 其他常用
+msgid "Status"
+msgstr "状态"
+
+msgid "Type"
+msgstr "类型"
+
+msgid "Date"
+msgstr "日期"
+
+msgid "Created"
+msgstr "创建时间"
+
+msgid "Updated"
+msgstr "更新时间"
+
+msgid "Created By"
+msgstr "创建者"
+
+msgid "Updated By"
+msgstr "更新者"
+
+msgid "Options"
+msgstr "选项"
+
+msgid "Actions"
+msgstr "操作"
+
+msgid "Configuration"
+msgstr "配置"
+
+msgid "Comments"
+msgstr "评论"
+
+msgid "API"
+msgstr "API"
+
+msgid "Documentation"
+msgstr "文档"
+
+msgid "Organization"
+msgstr "组织"
+
+msgid "Workspace"
+msgstr "工作区"
+
+msgid "Members"
+msgstr "成员"
+
+msgid "Roles"
+msgstr "角色"
+
+msgid "Storage"
+msgstr "存储"
+
+msgid "Integrations"
+msgstr "集成"
+
+# 日历相关
+msgid "January"
+msgstr "一月"
+
+msgid "February"
+msgstr "二月"
+
+msgid "March"
+msgstr "三月"
+
+msgid "April"
+msgstr "四月"
+
+msgid "May"
+msgstr "五月"
+
+msgid "June"
+msgstr "六月"
+
+msgid "July"
+msgstr "七月"
+
+msgid "August"
+msgstr "八月"
+
+msgid "September"
+msgstr "九月"
+
+msgid "October"
+msgstr "十月"
+
+msgid "November"
+msgstr "十一月"
+
+msgid "December"
+msgstr "十二月"
+
+msgid "Sunday"
+msgstr "星期日"
+
+msgid "Monday"
+msgstr "星期一"
+
+msgid "Tuesday"
+msgstr "星期二"
+
+msgid "Wednesday"
+msgstr "星期三"
+
+msgid "Thursday"
+msgstr "星期四"
+
+msgid "Friday"
+msgstr "星期五"
+
+msgid "Saturday"
+msgstr "星期六"
+
+# 自动标注相关
+msgid "Auto-Label with AI"
+msgstr "AI自动标注"
+
+msgid "Auto-Label Tasks"
+msgstr "自动标注任务"
+
+msgid "Great news!"
+msgstr "好消息！"
+
+msgid "You can now rapidly label this project using Prompts."
+msgstr "您现在可以使用提示快速标注此项目。"
+
+msgid "Click \"Auto-Label Tasks\" to set up LLM powered labeling in under a minute."
+msgstr "点击\"自动标注任务\"，在一分钟内设置由LLM驱动的标注。"
+
+msgid "We've provided some OpenAI credits to get you started."
+msgstr "我们提供了一些OpenAI积分帮助您开始使用。"
+
+msgid "OK"
+msgstr "确定"
+
+msgid "Don't show this message again."
+msgstr "不再显示此消息。"
+
+msgid "That's it!"
+msgstr "就是这样！"
+
+msgid "Finish"
+msgstr "完成"
+
+# 标注界面消息
+msgid "Done!"
+msgstr "完成！"
+
+msgid "No more annotations"
+msgstr "没有更多标注"
+
+msgid "No More Tasks Left in Queue"
+msgstr "队列中没有更多任务"
+
+msgid "You don't have access to this task"
+msgstr "您没有权限访问此任务"
+
+msgid "Please confirm you want to delete all labeled regions"
+msgstr "请确认您要删除所有已标注区域"
+
+msgid "Labeling Instructions"
+msgstr "标注说明"
+
+msgid "Review Instructions"
+msgstr "审核说明"
+
+# 表单相关
+msgid "Required"
+msgstr "必填"
+
+msgid "Filter"
+msgstr "筛选"
+
+msgid "Choose"
+msgstr "选择"
+
+msgid "Choose all"
+msgstr "全选"
+
+msgid "Click to choose all %s at once."
+msgstr "点击一次选择所有%s。"
+
+msgid "Type into this box to filter down the list of available %s."
+msgstr "在此框中输入以筛选可用的%s列表。"
+
+msgid "This is the list of available %s. You may choose some by selecting them in the box below and then clicking the \"Choose\" arrow between the two boxes."
+msgstr "这是可用%s的列表。您可以通过在下面的框中选择它们，然后点击两个框之间的\"选择\"箭头来选择一些。"
+
+# 其他界面元素
+msgid "Header"
+msgstr "标题"
+
+msgid "Please select the class"
+msgstr "请选择类别"
+
+msgid "Copy"
+msgstr "复制"
+
+msgid "Copied!"
+msgstr "已复制！"
+
+msgid "All Project Tasks"
+msgstr "所有项目任务"
+
+msgid "Evaluate"
+msgstr "评估"
+
+msgid "Save & Run"
+msgstr "保存并运行"
+
+msgid "Run"
+msgstr "运行"
+
+msgid "Apply"
+msgstr "应用"
+
+msgid "Reset"
+msgstr "重置"
+
+msgid "Help"
+msgstr "帮助"
+
+msgid "Support"
+msgstr "支持"
+
+msgid "Feedback"
+msgstr "反馈"
+
+msgid "About"
+msgstr "关于"
+
+msgid "Version"
+msgstr "版本"
+
+msgid "License"
+msgstr "许可证"
+
+msgid "Community"
+msgstr "社区"
+
+msgid "Forum"
+msgstr "论坛"
+
+msgid "GitHub"
+msgstr "GitHub"
+
+msgid "Twitter"
+msgstr "Twitter"
+
+msgid "Discord"
+msgstr "Discord"
+
+msgid "Slack"
+msgstr "Slack"
+
+msgid "YouTube"
+msgstr "YouTube"
+
+msgid "Blog"
+msgstr "博客"
+
+msgid "FAQ"
+msgstr "常见问题"
+
+msgid "Contact"
+msgstr "联系我们"
+
+msgid "Privacy Policy"
+msgstr "隐私政策"
+
+msgid "Terms of Service"
+msgstr "服务条款"
+
+msgid "Cookie Policy"
+msgstr "Cookie政策"

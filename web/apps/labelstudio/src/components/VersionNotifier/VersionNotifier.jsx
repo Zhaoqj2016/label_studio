@@ -1,0 +1,68 @@
+import { format } from "date-fns";
+import { createContext, useCallback, useContext, useEffect, useReducer } from "react";
+import { Link } from "react-router-dom";
+import { useAPI } from "../../providers/ApiProvider";
+import { Block, Elem } from "../../utils/bem";
+import "./VersionNotifier.scss";
+import { IconBell } from "../../assets/icons";
+
+const VersionContext = createContext();
+
+export const VersionProvider = ({ children }) => {
+  const api = useAPI();
+
+  const [state, dispatch] = useReducer((state, action) => {
+    if (action.type === "fetch-version") {
+      return { ...state, ...action.payload };
+    }
+  });
+
+  const fetchVersion = useCallback(async () => {
+    const response = await api.callApi("version");
+
+    if (response !== null) {
+      const data = response["label-studio-os-package"];
+
+      dispatch({
+        type: "fetch-version",
+        payload: {
+          version: data.version,
+          latestVersion: data.latest_version_from_pypi,
+          newVersion: data.current_version_is_outdated,
+          updateTime: format(new Date(data.latest_version_upload_time), "MMM d"),
+        },
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchVersion();
+  }, []);
+
+  return <VersionContext.Provider value={state}>{children}</VersionContext.Provider>;
+};
+
+export const VersionNotifier = ({ showNewVersion, showCurrentVersion }) => {
+  const { newVersion, updateTime, latestVersion, version } = useContext(VersionContext) ?? {};
+  const url = `https://labelstud.io/redirect/update?version=${version}`;
+
+  return newVersion && showNewVersion ? (
+    <Block tag="li" name="version-notifier">
+      <a href={url} target="_blank" rel="noreferrer">
+        <Elem name="icon">
+          <IconBell />
+        </Elem>
+        <Elem name="content">
+          <Elem name="title" data-date={updateTime}>
+            {latestVersion} Available
+          </Elem>
+          <Elem name="description">Current version: {version}</Elem>
+        </Elem>
+      </a>
+    </Block>
+  ) : version && showCurrentVersion ? (
+    <Block tag={Link} name="current-version" to="/version" target="_blank">
+      v{version}
+    </Block>
+  ) : null;
+};

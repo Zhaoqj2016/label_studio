@@ -1,0 +1,15 @@
+.container {
+  .relationItem {
+    transition: opacity 300ms;
+  }
+
+  &._highlighting {
+    & .relationItem {
+      opacity: 0.2;
+
+      &._highlighted {
+        opacity: 1;
+      }
+    }
+  }
+}

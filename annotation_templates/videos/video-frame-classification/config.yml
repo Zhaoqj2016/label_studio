@@ -1,0 +1,18 @@
+title: Video Frame Classification
+type: community
+group: Videos
+image: /static/templates/video-frame-classification.png
+details: <h1>Classify frames within a video</h1>
+config: |
+  <View>
+    <TimelineLabels name="videoLabels" toName="video">
+      <Label value="Movement" background="#c813ec"/>
+      <Label value="Still" background="#1d81cd"/>
+      <Label value="Slow Motion" background="#54d651"/>
+    </TimelineLabels>
+    <Video name="video" value="$video" timelineHeight="120" />
+  </View>
+
+  <!--{
+   "video": "/static/samples/opossum_snow.mp4"
+  }-->

@@ -1,0 +1,544 @@
+{% load static %}
+{% load i18n %}
+{% load rules %}
+{% load filters %}
+
+<!doctype html>
+<html lang="zh-hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, shrink-to-fit=no">
+  <title>Label Studio</title>
+  <meta name="author" content="Label Studio">
+  <meta name="description" content="Label Studio is a multi-type data labeling and annotation tool with standardized output format">
+  <meta name="keywords" content="Label Studio, Data Labeling, Annotation, Machine Learning, Python, JavaScript, React, Computer Vision, NLP, Natural Language Processing, Audio, Speech, Image, Video, Text, Multi-domain, Multi-type, Nested, Hierarchical">
+
+  <!-- 最早执行的内联翻译脚本 -->
+  <script>
+    // 立即设置语言
+    window.LANGUAGE_CODE = "zh-hans";
+    document.documentElement.lang = "zh-hans";
+    
+    // 确保APP_SETTINGS存在并设置语言
+    if (!window.APP_SETTINGS) window.APP_SETTINGS = {};
+    window.APP_SETTINGS.language = "zh-hans";
+    
+    // 为React准备初始状态
+    window.__REDUX_INITIAL_STATE__ = window.__REDUX_INITIAL_STATE__ || {};
+    window.__REDUX_INITIAL_STATE__.language = "zh-hans";
+    
+    // 拦截React渲染机制
+    (function() {
+      // 保存原始的createElement方法
+      var originalCreateElement = null;
+      
+      // 监视React对象
+      Object.defineProperty(window, 'React', {
+        configurable: true,
+        set: function(value) {
+          // 如果React对象被设置，拦截createElement方法
+          if (value && value.createElement && !originalCreateElement) {
+            originalCreateElement = value.createElement;
+            value.createElement = function(type, props, ...children) {
+              // 翻译props中的文本属性
+              if (props) {
+                for (const key in props) {
+                  if (typeof props[key] === 'string' && window.translations && window.translations[props[key]]) {
+                    props[key] = window.translations[props[key]];
+                  }
+                }
+              }
+              
+              // 翻译文本子元素
+              if (children && children.length) {
+                children = children.map(child => {
+                  if (typeof child === 'string' && window.translations && window.translations[child]) {
+                    return window.translations[child];
+                  }
+                  return child;
+                });
+              }
+              
+              return originalCreateElement.apply(this, [type, props, ...children]);
+            };
+          }
+          
+          // 保存React对象
+          Object.defineProperty(window, 'React', {
+            configurable: true,
+            writable: true,
+            value: value
+          });
+        },
+        get: function() {
+          return undefined;
+        }
+      });
+    })();
+  </script>
+
+  <!-- 预加载翻译脚本 -->
+  <script src="{% static 'react-app/preload-lang.js' %}?v={{ versions.backend.commit }}"></script>
+
+  <!-- Address string color -->
+  <meta name="theme-color" content="#272727"> <!-- Chrome, Firefox OS and Opera -->
+  <meta name="msapplication-navbutton-color" content="#272727">  <!-- Windows Phone -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="#272727">  <!-- iOS Safari -->
+
+  <!-- 加载语言修补脚本 -->
+  <script src="{% static 'react-app/lang-patch.js' %}?v={{ versions.backend.commit }}"></script>
+
+  <!-- Preload fonts -->
+  <link rel="preload" href="{{settings.HOSTNAME}}{% static 'fonts/Figtree-Regular.ttf' %}" type="font" crossorigin="anonymous">
+  <link rel="preload" href="{{settings.HOSTNAME}}{% static 'fonts/Figtree-SemiBold.ttf' %}" type="font" crossorigin="anonymous">
+
+  <!-- CSS -->
+  <link href="{{settings.HOSTNAME}}{% static 'css/uikit.css' %}" rel="stylesheet">
+  <link href="{{settings.HOSTNAME}}{% static 'css/main.css' %}" rel="stylesheet">
+  {% block app-css %}
+    <link href="{{settings.FRONTEND_HOSTNAME}}/react-app/main.css?v={{ versions.backend.commit }}" rel="stylesheet">
+  {% endblock %}
+
+  {% block app-scripts %}
+  {% endblock %}
+
+  <script
+   src="https://browser.sentry-cdn.com/5.17.0/bundle.min.js"
+   integrity="sha384-lowBFC6YTkvMIWPORr7+TERnCkZdo5ab00oH5NkFLeQUAmBTLGwJpFjF6djuxJ/5"
+   crossorigin="anonymous"></script>
+
+  <script nonce="{{request.csp_nonce}}">
+    window.exports = function() {};
+    // 强制设置 HTML 的 lang 属性为中文
+    document.documentElement.lang = "zh-hans";
+    
+    // 添加全局语言设置，供前端 JavaScript 使用
+    window.LANGUAGE_CODE = "zh-hans";
+    window.LANGUAGE_NAME = "简体中文";
+    
+    // 添加全局翻译函数
+    window.translations = {
+      // 通用
+      'Cancel': '取消',
+      'Save': '保存',
+      'Delete': '删除',
+      'Edit': '编辑',
+      'Add': '添加',
+      'Remove': '移除',
+      'Search': '搜索',
+      'Filter': '筛选',
+      'Loading': '加载中',
+      'Submit': '提交',
+      'Close': '关闭',
+      'Next': '下一步',
+      'Previous': '上一步',
+      'Back': '返回',
+      'Done': '完成',
+      'Yes': '是',
+      'No': '否',
+      'OK': '确定',
+      'Confirm': '确认',
+      
+      // 导航
+      'Projects': '项目',
+      'Tasks': '任务',
+      'Annotations': '标注',
+      'Dashboard': '仪表盘',
+      'Settings': '设置',
+      'Organization': '组织',
+      'Profile': '个人资料',
+      'Logout': '退出登录',
+      'Login': '登录',
+      'Sign Up': '注册',
+      'Sign in': '登录',
+      
+      // 登录相关
+      'Username': '用户名',
+      'Password': '密码',
+      'Email': '邮箱',
+      'Remember me': '记住我',
+      'Forgot password?': '忘记密码？',
+      'Sign In': '登录',
+      'Sign in to Label Studio': '登录 Label Studio',
+      'User was not found': '未找到用户',
+      'Incorrect password': '密码不正确',
+      'or': '或',
+      'Powered by': '技术支持',
+      
+      // 项目相关
+      'Create Project': '创建项目',
+      'Import': '导入',
+      'Export': '导出',
+      'Project Name': '项目名称',
+      'Description': '描述',
+      'Created': '创建时间',
+      'Last Updated': '最后更新',
+      'Members': '成员',
+      'Labels': '标签',
+      'Instructions': '说明',
+      'Data Manager': '数据管理',
+      
+      // 任务相关
+      'Task ID': '任务 ID',
+      'Completed': '已完成',
+      'In Progress': '进行中',
+      'Pending': '待处理',
+      'Skipped': '已跳过',
+      'Rejected': '已拒绝',
+      'Accepted': '已接受',
+      'Total': '总计',
+    };
+    
+    // 全局翻译函数
+    window.t = function(text) {
+      if (!text) return '';
+      
+      const lang = window.LANGUAGE_CODE || 'en';
+      
+      if (lang === 'zh-hans' && window.translations[text]) {
+        return window.translations[text];
+      }
+      
+      return text;
+    };
+    
+    // 在页面加载后自动翻译
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.LANGUAGE_CODE === 'zh-hans') {
+        // 翻译按钮
+        document.querySelectorAll('button').forEach(function(el) {
+          if (el.textContent && !el.hasAttribute('data-no-i18n')) {
+            el.textContent = window.t(el.textContent.trim());
+          }
+        });
+        
+        // 翻译标题
+        document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(function(el) {
+          if (el.textContent && !el.hasAttribute('data-no-i18n')) {
+            el.textContent = window.t(el.textContent.trim());
+          }
+        });
+        
+        // 翻译链接
+        document.querySelectorAll('a').forEach(function(el) {
+          if (el.textContent && !el.hasAttribute('data-no-i18n')) {
+            el.textContent = window.t(el.textContent.trim());
+          }
+        });
+        
+        // 翻译标签
+        document.querySelectorAll('label').forEach(function(el) {
+          if (el.textContent && !el.hasAttribute('data-no-i18n')) {
+            el.textContent = window.t(el.textContent.trim());
+          }
+        });
+        
+        // 翻译占位符
+        document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(function(el) {
+          if (el.placeholder && !el.hasAttribute('data-no-i18n')) {
+            el.placeholder = window.t(el.placeholder);
+          }
+        });
+      }
+    });
+    
+    // 增强版翻译观察器 - 监听DOM变化并强制翻译
+    (function() {
+      function translateElement(element) {
+        // 跳过脚本元素
+        if (element.tagName === 'SCRIPT') return;
+        
+        // 翻译文本内容
+        if (element.textContent && !element.hasAttribute('data-no-i18n')) {
+          const text = element.textContent.trim();
+          if (window.translations[text]) {
+            element.textContent = window.translations[text];
+          }
+        }
+        
+        // 翻译placeholder
+        if (element.hasAttribute('placeholder')) {
+          const placeholder = element.getAttribute('placeholder');
+          if (window.translations[placeholder]) {
+            element.setAttribute('placeholder', window.translations[placeholder]);
+          }
+        }
+        
+        // 翻译子元素
+        Array.from(element.children).forEach(translateElement);
+      }
+      
+      // 创建监视器
+      function setupObserver() {
+        if (!window.MutationObserver) return;
+        
+        const observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+              mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1) { // 元素节点
+                  translateElement(node);
+                }
+              });
+            }
+          });
+        });
+        
+        // 监听整个文档
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
+        
+        // 每隔一段时间强制翻译整个页面
+        setInterval(function() {
+          translateElement(document.body);
+        }, 1000);
+      }
+      
+      // 页面加载后启动监视器
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupObserver);
+      } else {
+        setupObserver();
+      }
+    })();
+  </script>
+
+  <!-- 加载自动翻译脚本 -->
+  <script src="{% static 'react-app/auto-translate.js' %}?v={{ versions.backend.commit }}"></script>
+
+  <!-- 强制翻译脚本 -->
+  <script src="{% static 'react-app/force-translate.js' %}?v={{ versions.backend.commit }}"></script>
+  
+  <!-- 模板界面专用翻译脚本 -->
+  <script src="{% static 'js/template-translate.js' %}"></script>
+  
+  <!-- 项目界面专用汉化脚本 -->
+  <script src="{% static 'react-app/project-translate.js' %}"></script>
+
+  {% block page_labeling %}
+    <link href="{{settings.HOSTNAME}}{% static 'images/favicon.ico' %}" rel="shortcut icon"/>
+  {% endblock %}
+
+  {% block head %}
+  {% endblock %}
+
+  {% get_current_language as LANGUAGE_CODE %}
+  {% get_available_languages as LANGUAGES %}
+</head>
+
+<body>
+
+{% if LANGUAGES|length > 1 %}
+<div class="language-switcher" style="position: fixed; top: 10px; right: 10px; z-index: 1000; background: rgba(255, 255, 255, 0.8); padding: 5px; border-radius: 4px;">
+  <form action="{% url 'set_language' %}" method="post">
+    {% csrf_token %}
+    <input name="next" type="hidden" value="{{ request.path }}">
+    <select name="language" onchange="this.form.submit()">
+      {% get_current_language as CURRENT_LANGUAGE %}
+      {% get_available_languages as AVAILABLE_LANGUAGES %}
+      {% for lang_code, lang_name in LANGUAGES %}
+        <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+          {{ lang_name }}
+        </option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+{% endif %}
+
+<div class="app-wrapper"></div>
+
+<template id="main-content">
+  <main class="main">
+
+    <!-- Space & Divider -->
+    {% block divider %}
+      <div class="ui divider divider-wide"></div>
+    {% endblock %}
+
+    <!-- Content -->
+    {% block content %}
+    {% endblock %}
+
+  </main>
+</template>
+
+<template id="context-menu-left">
+  {% block context_menu_left %}{% endblock %}
+</template>
+
+<template id="context-menu-right">
+  {% block context_menu_right %}{% endblock %}
+</template>
+
+<script id="app-settings" nonce="{{request.csp_nonce}}">
+  // 强制设置语言为中文
+  window.APP_SETTINGS = Object.assign({
+    user: {
+      id: {{ user.pk }},
+      username: "{{user.username}}",
+      firstName: "{{user.first_name}}",
+      lastName: "{{user.last_name}}",
+      initials: "{{user.get_initials}}",
+      email: "{{user.email}}",
+      allow_newsletters: {% if user.allow_newsletters is None %}null{% else %}{{user.allow_newsletters|yesno:"true,false"}}{% endif %},
+      {% if user.avatar %}
+      avatar: "{{user.avatar_url|safe}}",
+      {% endif %}
+    },
+    language: "zh-hans",
+    debug: {{settings.DEBUG|yesno:"true,false"}},
+    hostname: "{{settings.HOSTNAME}}",
+    version: {{ versions|json_dumps_ensure_ascii|safe }},
+    sentry_dsn: {% if settings.FRONTEND_SENTRY_DSN %}"{{ settings.FRONTEND_SENTRY_DSN }}"{% else %}null{% endif %},
+    sentry_rate: "{{ settings.FRONTEND_SENTRY_RATE }}",
+    sentry_environment: "{{ settings.FRONTEND_SENTRY_ENVIRONMENT }}",
+    editor_keymap: JSON.parse({{ settings.EDITOR_KEYMAP|safe }}),
+    feature_flags: {{ feature_flags|json_dumps_ensure_ascii|safe }},
+    feature_flags_default_value: {{ settings.FEATURE_FLAGS_DEFAULT_VALUE|json_dumps_ensure_ascii|safe }},
+    server_id: {{ request.server_id|json_dumps_ensure_ascii|safe }},
+    collect_analytics: {{ settings.COLLECT_ANALYTICS|yesno:"true,false" }},
+
+    {% block app_more_settings %}
+      flags: {
+        allow_organization_webhooks: {{settings.ALLOW_ORGANIZATION_WEBHOOKS|yesno:"true,false"}},
+        storage_persistence: {{ settings.STORAGE_PERSISTENCE|yesno:"true,false" }}, 
+      },
+    {% endblock %}
+
+  }, {% block frontend_settings %}{}{% endblock %});
+  
+  // 确保语言设置为中文
+  window.APP_SETTINGS.language = "zh-hans";
+</script>
+
+{% block app-js %}
+<!-- React应用加载前确保语言设置 -->
+<script>
+  // 最后一次确认语言设置
+  window.LANGUAGE_CODE = "zh-hans";
+  document.documentElement.lang = "zh-hans";
+  if (!window.APP_SETTINGS) window.APP_SETTINGS = {};
+  window.APP_SETTINGS.language = "zh-hans";
+  
+  // 钩子React初始化过程
+  (function() {
+    // 保存原始的函数
+    var originalDefineProperty = Object.defineProperty;
+    var originalCreateElement = window.React && window.React.createElement;
+    
+    // 如果React已经加载，则直接钩子
+    if (originalCreateElement) {
+      window.React.createElement = function(type, props, ...children) {
+        // 翻译props中的文本属性
+        if (props) {
+          for (const key in props) {
+            if (typeof props[key] === 'string' && window.translations && window.translations[props[key]]) {
+              props[key] = window.translations[props[key]];
+            }
+          }
+        }
+        
+        // 翻译文本子元素
+        if (children && children.length) {
+          children = children.map(child => {
+            if (typeof child === 'string' && window.translations && window.translations[child]) {
+              return window.translations[child];
+            }
+            return child;
+          });
+        }
+        
+        return originalCreateElement.apply(this, [type, props, ...children]);
+      };
+    }
+  })();
+</script>
+
+<script src="{{settings.FRONTEND_HOSTNAME}}/react-app/runtime.js?v={{ versions.backend.commit }}"></script>
+<script src="{{settings.FRONTEND_HOSTNAME}}/react-app/vendor.js?v={{ versions.backend.commit }}"></script>
+<script src="{{settings.FRONTEND_HOSTNAME}}/react-app/main.js?v={{ versions.backend.commit }}"></script>
+{% endblock %}
+
+{% block bottomjs %}
+  <script src="{{settings.HOSTNAME}}{% static 'js/jquery.min.js' %}"></script>
+  <script nonce="{{request.csp_nonce}}">
+
+    // CSRF
+    (function() {
+      function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      }
+
+      // Apply CSRF token
+      var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+      $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+        }
+      });
+    })();
+
+  </script>
+{% endblock %}
+
+<div id="dynamic-content">
+
+  {% block billing-checks %}
+  {% endblock %}
+
+</div>
+
+{% block extra_scripts %}{% endblock %}
+
+<!-- 强制翻译最终检查 -->
+<script>
+  // 确保语言设置被最终应用
+  setTimeout(function() {
+    // 设置语言
+    window.LANGUAGE_CODE = "zh-hans";
+    document.documentElement.lang = "zh-hans";
+    if (window.APP_SETTINGS) window.APP_SETTINGS.language = "zh-hans";
+    
+    // 强制翻译所有文本
+    document.querySelectorAll('button, a, h1, h2, h3, h4, h5, h6, span, label, div, p, input[type="submit"], input[type="button"]').forEach(function(element) {
+      if (element.textContent && !element.hasAttribute('data-no-i18n')) {
+        const originalText = element.textContent.trim();
+        if (window.translations && window.translations[originalText]) {
+          element.textContent = window.translations[originalText];
+        }
+      }
+    });
+    
+    // 强制翻译占位符
+    document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(function(element) {
+      if (element.placeholder && !element.hasAttribute('data-no-i18n') && window.translations && window.translations[element.placeholder]) {
+        element.placeholder = window.translations[element.placeholder];
+      }
+    });
+  }, 1000);
+  
+  // 每2秒重复检查一次
+  setInterval(function() {
+    document.querySelectorAll('button, a, h1, h2, h3, h4, h5, h6, span, label, div, p, input[type="submit"], input[type="button"]').forEach(function(element) {
+      if (element.textContent && !element.hasAttribute('data-no-i18n')) {
+        const originalText = element.textContent.trim();
+        if (window.translations && window.translations[originalText]) {
+          element.textContent = window.translations[originalText];
+        }
+      }
+    });
+  }, 2000);
+</script>
+
+{% block footer %}{% endblock %}
+
+</div>
+
+</body>
+</html>

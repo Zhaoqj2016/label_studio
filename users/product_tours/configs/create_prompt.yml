@@ -1,0 +1,22 @@
+steps:
+- target: body
+  placement: center
+  title: '<div><img src="/static/images/prompts-tour-banner.svg" style="width: 100%; margin-bottom: 16px;"/><div style="font-size: 24px; color: var(--grape_500)">Auto-Label with AI</div></div>'
+  content: '<div style="width: 100%">We’ve set up an initial prompt and supplied some OpenAI credits to help you get started with auto-labeling your project.<br/><br/>Let us show you around!</div>'
+
+- target: .cm-editor
+  placement: right
+  title: '<div style="color: var(--sand_600)">Step 1 of 3</div>'
+  content: '<div style="width: 100%;">We’ve gone ahead and generated a prompt for you based on your project’s labeling configuration.<br/><br/> Feel free to adjust it!</div>'
+
+- target: '[data-testid="evaluate-model-button"]'
+  placement: top
+  title: '<div style="color: var(--sand_600)">Step 2 of 3</div>'
+  content: '<div style="width: 100%;">That''s it! After saving, just click here to start getting predictions for your tasks.</div>'
+
+- target: body
+  placement: center
+  title: '<div>🎉 <br/><b> That’s it! </b></div>'
+  content: 'Watch the outputs stream in, and click on any task to review the full prediction. <br/>Once you''re ready, run your prompt on <b>"All Project Tasks"</b> to get predictions for all your tasks!'
+  locale:
+    last: 'Finish'
