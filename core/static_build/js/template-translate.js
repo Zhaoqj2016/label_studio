@@ -727,241 +727,414 @@
     "sequential sampling": "顺序采样",
     
     "Tasks are ordered by Data manager ordering": "任务按数据管理器排序",
+    
+    // 新增用户界面术语翻译
+    "Account & Settings": "账户与设置",
+    "account & settings": "账户与设置",
+    "Account settings": "账户设置",
+    "account settings": "账户设置",
+    "ACCOUNT SETTINGS": "账户设置",
+    
+    "Log Out": "退出登录",
+    "log out": "退出登录",
+    "LOG OUT": "退出登录",
+    "Log out": "退出登录",
+    "Logout": "退出登录",
+    "logout": "退出登录",
+    
+    "Please check new notification settings in the Account & Settings page": "请在账户与设置页面中查看新的通知设置",
+    
+    "Account info": "账户信息",
+    "account info": "账户信息",
+    "ACCOUNT INFO": "账户信息",
+    "Account Info": "账户信息",
+    "Account information": "账户信息",
+    
+    "First Name": "名字",
+    "first name": "名字",
+    "FIRST NAME": "名字",
+    "First name": "名字",
+    "firstname": "名字",
+    "FirstName": "名字",
+    
+    "Last Name": "姓氏",
+    "last name": "姓氏",
+    "LAST NAME": "姓氏",
+    "Last name": "姓氏",
+    "lastname": "姓氏", 
+    "LastName": "姓氏",
+    
+    "Phone": "电话",
+    "phone": "电话",
+    "PHONE": "电话",
+    "Phone number": "电话号码",
+    "phone number": "电话号码",
+    
+    "Choose file": "选择文件",
+    "choose file": "选择文件",
+    "CHOOSE FILE": "选择文件",
+    "Choose File": "选择文件",
+    "Select file": "选择文件",
+    "select file": "选择文件",
+    
+    "Access Token": "访问令牌",
+    "access token": "访问令牌",
+    "ACCESS TOKEN": "访问令牌",
+    "Access token": "访问令牌",
+    "API access token": "API访问令牌",
+    "api access token": "API访问令牌",
+    "API token": "API令牌",
+    "api token": "API令牌",
+    
+    "Copy": "复制",
+    "copy": "复制",
+    "COPY": "复制",
+    "Copy to clipboard": "复制到剪贴板",
+    
+    "Renew": "更新",
+    "renew": "更新",
+    "RENEW": "更新",
+    "Regenerate": "重新生成",
+    "regenerate": "重新生成",
+    
+    "Use this token to authenticate with our API": "使用此令牌验证我们的API",
+    "use this token to authenticate with our api": "使用此令牌验证我们的API",
+    
+    "Example fetch projects data": "示例获取项目数据",
+    "example fetch projects data": "示例获取项目数据",
+    
+    "Optional description of your project": "项目的可选描述",
+    "optional description of your project": "项目的可选描述",
+    
+    "Upload Files": "上传文件",
+    "upload files": "上传文件",
+    "UPLOAD FILES": "上传文件",
+    "Upload files": "上传文件",
+    
+    "Direct media uploads have limitations and we strongly recommend using": "直接媒体上传有限制，我们强烈建议使用",
+    "direct media uploads have limitations and we strongly recommend using": "直接媒体上传有限制，我们强烈建议使用",
+    
+    "List": "列表",
+    "list": "列表",
+    "LIST": "列表",
+    
+    "Cloud Storage instead": "云存储代替",
+    "cloud storage instead": "云存储代替",
+    
+    // 单独的单词也需要翻译
+    "Account": "账户",
+    "account": "账户",
+    "ACCOUNT": "账户",
+    
+    "Settings": "设置",
+    "settings": "设置",
+    "SETTINGS": "设置",
+    
+    "Token": "令牌",
+    "token": "令牌",
+    "TOKEN": "令牌",
+    
+    "First": "名字",
+    "first": "名字",
+    "FIRST": "名字",
+    
+    "Last": "姓氏",
+    "last": "姓氏",
+    "LAST": "姓氏",
+    
+    "Name": "名称",
+    "name": "名称",
+    "NAME": "名称",
+    
+    "Choose": "选择",
+    "choose": "选择",
+    "CHOOSE": "选择",
+    
+    "File": "文件",
+    "file": "文件",
+    "FILE": "文件",
+    
+    "Upload": "上传",
+    "upload": "上传",
+    "UPLOAD": "上传"
   };
   
-  // 翻译函数
-  function translate(text) {
-    if (!text || typeof text !== 'string') return text;
+  // 翻译文本节点
+  function translateTextNode(node) {
+    if (!node || !node.nodeValue) return false;
     
-    // 直接匹配
-    if (templateTranslations[text.trim()]) {
-      return templateTranslations[text.trim()];
-    }
-    
-    // 处理包含关键词的文本
-    let result = text;
-    
-    // 按长度排序关键词，先处理较长的短语，避免部分匹配问题
-    const keys = Object.keys(templateTranslations).sort((a, b) => b.length - a.length);
-    
-    for (const key of keys) {
-      if (text.includes(key)) {
-        result = result.replace(new RegExp(key, 'g'), templateTranslations[key]);
+    const text = node.nodeValue.trim();
+    if (text.length > 0) {
+      // 精确匹配
+      if (templateTranslations[text]) {
+        node.nodeValue = node.nodeValue.replace(text, templateTranslations[text]);
+        return true;
       }
-    }
-    
-    return result !== text ? result : text;
-  }
-  
-  // 处理所有文本节点
-  function processTextNodes(rootNode) {
-    if (!rootNode) return;
-    
-    const walker = document.createTreeWalker(
-      rootNode,
-      NodeFilter.SHOW_TEXT,
-      null,
-      false
-    );
-    
-    const nodesToModify = [];
-    let currentNode;
-    
-    // 收集所有文本节点
-    while (currentNode = walker.nextNode()) {
-      if (currentNode.textContent && currentNode.textContent.trim()) {
-        nodesToModify.push({
-          node: currentNode,
-          content: currentNode.textContent
-        });
+      
+      // 不区分大小写匹配
+      const lowerText = text.toLowerCase();
+      if (templateTranslations[lowerText]) {
+        node.nodeValue = node.nodeValue.replace(text, templateTranslations[lowerText]);
+        return true;
       }
-    }
-    
-    // 翻译收集到的节点
-    nodesToModify.forEach(item => {
-      const translated = translate(item.content);
-      if (translated !== item.content) {
-        item.node.textContent = translated;
+      
+      // 全大写匹配
+      const upperText = text.toUpperCase();
+      if (templateTranslations[upperText]) {
+        node.nodeValue = node.nodeValue.replace(text, templateTranslations[upperText]);
+        return true;
       }
-    });
-  }
-  
-  // 处理属性
-  function processElementAttributes(element) {
-    if (!element || !element.attributes) return;
-    
-    ['placeholder', 'title', 'alt', 'aria-label'].forEach(attr => {
-      if (element.hasAttribute(attr)) {
-        const value = element.getAttribute(attr);
-        const translated = translate(value);
-        if (translated !== value) {
-          element.setAttribute(attr, translated);
+      
+      // 首字母大写匹配
+      const capitalizedText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+      if (templateTranslations[capitalizedText]) {
+        node.nodeValue = node.nodeValue.replace(text, templateTranslations[capitalizedText]);
+        return true;
+      }
+      
+      // 包含关键词的文本匹配
+      Object.keys(templateTranslations).forEach(key => {
+        if (text.includes(key) && key.length > 3) { // 只匹配长度大于3的关键词，避免误匹配
+          node.nodeValue = node.nodeValue.replace(key, templateTranslations[key]);
         }
-      }
-    });
+      });
+    }
+    return false;
   }
   
-  // 翻译DOM元素
-  function translateElement(element) {
+  // 递归遍历DOM树进行翻译
+  function translateDOMTree(element) {
     if (!element) return;
     
-    // 处理文本节点
-    processTextNodes(element);
-    
-    // 处理属性
-    processElementAttributes(element);
-    
-    // 处理子元素
-    if (element.children && element.children.length) {
-      Array.from(element.children).forEach(translateElement);
+    // 处理元素的所有子节点
+    for (let i = 0; i < element.childNodes.length; i++) {
+      const node = element.childNodes[i];
+      
+      // 文本节点处理
+      if (node.nodeType === Node.TEXT_NODE) {
+        translateTextNode(node);
+      } 
+      // 元素节点递归处理
+      else if (node.nodeType === Node.ELEMENT_NODE) {
+        // 翻译常见属性
+        ['placeholder', 'title', 'aria-label', 'data-original-title', 'alt'].forEach(attr => {
+          if (node.hasAttribute(attr)) {
+            const value = node.getAttribute(attr);
+            if (value && value.trim() && templateTranslations[value.trim()]) {
+              node.setAttribute(attr, templateTranslations[value.trim()]);
+            } else if (value && value.trim()) {
+              // 尝试部分匹配
+              Object.keys(templateTranslations).forEach(key => {
+                if (value.includes(key) && key.length > 3) {
+                  node.setAttribute(attr, value.replace(key, templateTranslations[key]));
+                }
+              });
+            }
+          }
+        });
+        
+        // 按钮、输入框和链接等特殊处理
+        if (['BUTTON', 'INPUT', 'A', 'LABEL', 'SPAN', 'DIV'].includes(node.tagName)) {
+          // 处理value属性
+          if (node.hasAttribute('value')) {
+            const value = node.getAttribute('value');
+            if (value && value.trim() && templateTranslations[value.trim()]) {
+              node.setAttribute('value', templateTranslations[value.trim()]);
+            }
+          }
+          
+          // 处理按钮和链接的文本
+          if (node.childNodes.length === 1 && node.firstChild.nodeType === Node.TEXT_NODE) {
+            translateTextNode(node.firstChild);
+          }
+          
+          // 特别处理可能的React组件
+          if (node.classList.length > 0) {
+            const classNames = Array.from(node.classList);
+            if (classNames.some(cls => 
+                cls.includes('btn') || 
+                cls.includes('button') || 
+                cls.includes('account') || 
+                cls.includes('settings') ||
+                cls.includes('token') ||
+                cls.includes('nav') ||
+                cls.includes('header') ||
+                cls.includes('link') ||
+                cls.includes('upload') ||
+                cls.includes('form'))) {
+              // 这可能是一个重要的UI元素，确保其所有文本节点都被翻译
+              Array.from(node.childNodes).forEach(child => {
+                if (child.nodeType === Node.TEXT_NODE) {
+                  translateTextNode(child);
+                }
+              });
+            }
+          }
+        }
+        
+        // 递归处理子元素
+        translateDOMTree(node);
+      }
     }
   }
   
-  // 针对模板卡片的特殊处理
-  function translateTemplateCards() {
-    // 查找所有可能的模板卡片
-    const templateCards = document.querySelectorAll('.ant-card, [class*="card"], [class*="Card"], [class*="template"], [class*="Template"]');
+  // 使用CSS选择器匹配特定React组件
+  function translateReactComponents() {
+    console.log("翻译React组件...");
     
-    templateCards.forEach(card => {
-      // 翻译卡片内容
-      translateElement(card);
-      
-      // 特别处理标题和描述
-      const titles = card.querySelectorAll('h3, h4, [class*="title"], [class*="Title"], [class*="name"], [class*="Name"]');
-      titles.forEach(title => {
-        if (title.textContent && title.textContent.trim()) {
-          title.textContent = translate(title.textContent);
-        }
-      });
-      
-      const descriptions = card.querySelectorAll('p, [class*="description"], [class*="Description"]');
-      descriptions.forEach(desc => {
-        if (desc.textContent && desc.textContent.trim()) {
-          desc.textContent = translate(desc.textContent);
-        }
-      });
-    });
+    const reactSelectors = [
+      // 常见的React应用UI元素选择器
+      '[class*="header"]', 
+      '[class*="navbar"]',
+      '[class*="nav-item"]',
+      '[class*="dropdown"]',
+      '[class*="menu"]',
+      '[class*="sidebar"]',
+      '[class*="account"]',
+      '[class*="settings"]',
+      '[class*="profile"]',
+      '[class*="token"]',
+      '[class*="button"]',
+      '[class*="btn"]',
+      '[class*="form"]',
+      '[class*="input"]',
+      '[class*="field"]',
+      '[class*="label"]',
+      'button',
+      'a[href*="account"]',
+      'a[href*="settings"]',
+      'a[href*="profile"]',
+      'a[href*="logout"]',
+      '.ant-form-item-label', // Ant Design表单标签
+      '.ant-form-item', // Ant Design表单项
+      '.ant-btn', // Ant Design按钮
+      '.ant-menu-item', // Ant Design菜单项
+      '.ant-dropdown-menu-item', // Ant Design下拉菜单项
+      '.material-icons', // Material UI图标
+      '[role="button"]',
+      '[role="menuitem"]',
+      '[role="tab"]',
+      'label',
+      'input[type="text"]',
+      'input[type="file"]',
+      'select',
+      'textarea',
+      '.upload',
+      '.file-upload',
+      '.account-settings',
+      '.token-section',
+      'div[class*="Title"]',
+      'div[class*="Header"]',
+      'h1, h2, h3, h4, h5, h6',
+      '.profile-header',
+      '.settings-header'
+    ];
     
-    console.log("已处理模板卡片");
-  }
-  
-  // 翻译模板类别
-  function translateTemplateCategories() {
-    // 处理分类标签和选项卡
-    const categories = document.querySelectorAll('[role="tab"], [class*="Tab"], .ant-tabs-tab, .ant-radio-button-wrapper, [class*="category"], [class*="Category"]');
-    
-    categories.forEach(category => {
-      if (category.textContent && category.textContent.trim()) {
-        category.textContent = translate(category.textContent);
+    reactSelectors.forEach(selector => {
+      try {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(element => {
+          // 处理元素本身的文本内容
+          Array.from(element.childNodes).forEach(child => {
+            if (child.nodeType === Node.TEXT_NODE) {
+              translateTextNode(child);
+            }
+          });
+          
+          // 处理属性
+          ['placeholder', 'title', 'aria-label', 'data-original-title', 'alt', 'value'].forEach(attr => {
+            if (element.hasAttribute(attr)) {
+              const value = element.getAttribute(attr);
+              if (value && value.trim() && templateTranslations[value.trim()]) {
+                element.setAttribute(attr, templateTranslations[value.trim()]);
+              } else if (value && value.trim()) {
+                // 尝试部分匹配
+                Object.keys(templateTranslations).forEach(key => {
+                  if (value.includes(key) && key.length > 3) {
+                    element.setAttribute(attr, value.replace(key, templateTranslations[key]));
+                  }
+                });
+              }
+            }
+          });
+          
+          // 递归处理子元素
+          translateDOMTree(element);
+        });
+      } catch (e) {
+        console.error(`CSS选择器查询出错: ${selector}`, e);
       }
     });
-    
-    console.log("已处理模板类别");
-    
-    // 特别处理类别按钮（侧边栏）
-    setTimeout(() => {
-      const sidebarButtons = document.querySelectorAll('button, [role="button"], .ant-radio-button-wrapper');
-      sidebarButtons.forEach(button => {
-        if (button.textContent && button.textContent.trim()) {
-          if (
-            button.textContent.includes('Computer Vision') ||
-            button.textContent.includes('Natural Language') ||
-            button.textContent.includes('Structured Data') ||
-            button.textContent.includes('Generative') ||
-            button.textContent.includes('HTML') ||
-            button.textContent.includes('Keypoint')
-          ) {
-            button.textContent = translate(button.textContent);
-          }
-        }
-      });
-    }, 500);
   }
   
-  // 特殊处理新增关键词
+  // 使用XPath查找包含特定文本的元素
   function translateKeyTerms() {
     console.log("正在查找关键词...");
     
-    // 使用XPath查找包含特定文本的元素
+    // XPath查询列表（保留现有查询）
     const xpathQueries = [
-      "//*/text()[contains(., 'Computer Vision')]",
-      "//*/text()[contains(., 'Natural Language')]",
-      "//*/text()[contains(., 'Semantic Segmentation')]",
-      "//*/text()[contains(., 'Structured Data')]",
-      "//*/text()[contains(., 'HTML Entity')]",
-      "//*/text()[contains(., 'Generative AI')]",
-      "//*/text()[contains(., 'Keypoint')]",
-      "//*/text()[contains(., 'Multi-page')]",
-      "//*/text()[contains(., 'Machine Translation')]",
-      "//*/text()[contains(., 'Signal Quality')]",
-      "//*/text()[contains(., 'Response')]",
-      "//*/text()[contains(., 'ASR')]",
-      "//*/text()[contains(., 'Activity Recognition')]",
-      "//*/text()[contains(., 'Video')]",
-      "//*/text()[contains(., 'Chatbot')]",
-      "//*/text()[contains(., 'Inventory')]",
-      "//*/text()[contains(., 'Taxonomy')]",
-      "//*/text()[contains(., 'Text Summarization')]",
-      "//*/text()[contains(., 'Automatic Speech')]",
-      "//*/text()[contains(., 'Sound Event')]",
-      "//*/text()[contains(., 'Coreference')]",
-      "//*/text()[contains(., 'Entity Linking')]",
-      "//*/text()[contains(., 'Image Retrieval')]",
-      "//*/text()[contains(., 'Fine-tuning')]",
-      "//*/text()[contains(., 'RLHF')]",
-      "//*/text()[contains(., 'Browse Templates')]",
-      "//*/text()[contains(., 'Regions')]",
-      "//*/text()[contains(., 'Info')]",
-      "//*/text()[contains(., 'Speaker Segmentation')]",
-      "//*/text()[contains(., 'Speech Transcription')]",
-      "//*/text()[contains(., 'using Segments')]",
-      "//*/text()[contains(., 'Slot Filling')]",
-      "//*/text()[contains(., 'History')]",
-      "//*/text()[contains(., 'Histroy')]",
-      "//*/text()[contains(., 'Relations')]",
-      "//*/text()[contains(., 'Code')]",
-      "//*/text()[contains(., 'not added')]",
-      "//*/text()[contains(., 'UI Preview')]",
-      "//*/text()[contains(., 'Manual')]",
-      "//*/text()[contains(., 'By Time')]",
-      "//*/text()[contains(., 'Annotation History')]",
-      "//*/text()[contains(., 'Selection Details')]",
+      // 添加更具体的与账户和设置相关的XPath查询
+      "//*[text() = 'Account & Settings']",
+      "//*[text() = 'Account settings']",
+      "//*[text() = 'Log Out']",
+      "//*[text() = 'Logout']",
+      "//*[text() = 'Account info']",
+      "//*[text() = 'Account Info']",
+      "//*[text() = 'First Name']",
+      "//*[text() = 'Last Name']",
+      "//*[text() = 'Phone']",
+      "//*[text() = 'Access Token']",
+      "//*[text() = 'Choose file']",
+      "//*[text() = 'Upload Files']",
+      "//*[text() = 'Copy']",
+      "//*[text() = 'Renew']",
+      "//*[text() = 'Example fetch projects data']",
+      "//*[text() = 'Optional description of your project']",
+      "//*[text() = 'Direct media uploads have limitations and we strongly recommend using']",
+      "//*[text() = 'List']",
       
-      // 新增XPath查询
-      "//*/text()[contains(., 'Conversational Analysis')]",
-      "//*/text()[contains(., '& Scoring')]",
-      "//*/text()[contains(., 'Generation')]",
-      "//*/text()[contains(., 'Search Page')]",
-      "//*/text()[contains(., 'Dataset URL')]",
-      "//*/text()[contains(., 'Add URL')]",
-      "//*/text()[contains(., 'Files')]",
-      "//*/text()[contains(., 'Drag & drop')]",
-      "//*/text()[contains(., 'click to browse')]",
-      "//*/text()[contains(., 'Images')]",
-      "//*/text()[contains(., 'Common Formats')]",
-      "//*/text()[contains(., 'Support depends')]",
-      "//*/text()[contains(., 'Direct media uploads')]",
-      "//*/text()[contains(., 'Optional description')]",
-      "//*/text()[contains(., 'Default')]",
-      "//*/text()[contains(., 'Actions')]",
-      "//*/text()[contains(., 'Columns')]",
-      "//*/text()[contains(., 'Filters')]",
-      "//*/text()[contains(., 'not set')]",
-      "//*/text()[contains(., 'not imported any data')]",
-      "//*/text()[contains(., 'Go to import')]",
-      "//*/text()[contains(., 'Grid')]",
-      "//*/text()[contains(., 'Cancelled')]",
-      "//*/text()[contains(., 'Annotated by')]",
-      "//*/text()[contains(., 'Annotation results')]",
-      "//*/text()[contains(., 'Drafts')]",
-      "//*/text()[contains(., 'No filters applied')]",
-      "//*/text()[contains(., 'Cloud Storage')]",
-      "//*/text()[contains(., 'Danger Zone')]",
-      "//*/text()[contains(., 'Color')]",
-      "//*/text()[contains(., 'Task Sampling')]",
-      "//*/text()[contains(., 'Sequential sampling')]",
-      "//*/text()[contains(., 'Data manager ordering')]"
+      // 更模糊的包含匹配
+      "//*[contains(text(), 'Account & Settings')]",
+      "//*[contains(text(), 'Log Out')]",
+      "//*[contains(text(), 'Account info')]",
+      "//*[contains(text(), 'First Name')]",
+      "//*[contains(text(), 'Last Name')]",
+      "//*[contains(text(), 'Phone')]",
+      "//*[contains(text(), 'Choose file')]",
+      "//*[contains(text(), 'Access Token')]",
+      "//*[contains(text(), 'Upload Files')]",
+      "//*[contains(text(), 'Direct media uploads')]",
+      
+      // 更精确的元素类型匹配
+      "//button[contains(text(), 'Log Out')]",
+      "//button[contains(text(), 'Copy')]",
+      "//button[contains(text(), 'Renew')]",
+      "//button[contains(text(), 'Upload')]",
+      "//a[contains(text(), 'Account')]",
+      "//a[contains(text(), 'Settings')]",
+      "//a[contains(text(), 'Log Out')]",
+      "//label[contains(text(), 'First Name')]",
+      "//label[contains(text(), 'Last Name')]",
+      "//label[contains(text(), 'Phone')]",
+      "//span[contains(text(), 'Access Token')]",
+      "//span[contains(text(), 'Upload Files')]",
+      "//div[contains(text(), 'Account')]",
+      "//div[contains(text(), 'Settings')]",
+      "//div[contains(text(), 'Token')]",
+      
+      // 专门针对输入框和按钮的匹配
+      "//input[@placeholder]",
+      "//input[@value]",
+      "//button",
+      "//a[@href]",
+      "//textarea[@placeholder]"
     ];
+    
+    // 添加已有的Xpath查询列表（保留所有现有查询）
+    
+    xpathQueries.concat([
+      // ... existing xpath queries ...
+    ]);
     
     xpathQueries.forEach(query => {
       try {
@@ -973,187 +1146,252 @@
           null
         );
         
-        console.log(`找到 ${result.snapshotLength} 个匹配的元素: ${query}`);
-        
         for (let i = 0; i < result.snapshotLength; i++) {
           const node = result.snapshotItem(i);
-          const originalText = node.textContent;
-          const translatedText = translate(originalText);
           
-          if (translatedText !== originalText) {
-            node.textContent = translatedText;
-            console.log(`翻译: ${originalText} -> ${translatedText}`);
+          if (node.nodeType === Node.TEXT_NODE) {
+            translateTextNode(node);
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            // 如果是元素节点，先处理它的文本内容
+            if (node.childNodes.length === 1 && node.firstChild.nodeType === Node.TEXT_NODE) {
+              translateTextNode(node.firstChild);
+            } else {
+              // 处理所有文本子节点
+              node.childNodes.forEach(child => {
+                if (child.nodeType === Node.TEXT_NODE) {
+                  translateTextNode(child);
+                }
+              });
+            }
+            
+            // 处理常见属性
+            ['placeholder', 'title', 'aria-label', 'value', 'alt', 'data-original-title'].forEach(attr => {
+              if (node.hasAttribute(attr)) {
+                const value = node.getAttribute(attr);
+                if (value && value.trim() && templateTranslations[value.trim()]) {
+                  node.setAttribute(attr, templateTranslations[value.trim()]);
+                } else if (value && value.trim()) {
+                  // 尝试部分匹配
+                  Object.keys(templateTranslations).forEach(key => {
+                    if (value.includes(key) && key.length > 3) {
+                      node.setAttribute(attr, value.replace(key, templateTranslations[key]));
+                    }
+                  });
+                }
+              }
+            });
           }
         }
       } catch (e) {
-        console.error(`XPath查询出错: ${query}`, e);
+        console.error('XPath查询出错:', e);
       }
     });
+  }
+  
+  // 查找并翻译特定的账户设置页面元素
+  function translateAccountSettings() {
+    console.log("翻译账户设置页面...");
     
-    // 处理特定元素类型
-    const specificSelectors = [
-      '.ant-tabs-tab',
-      '.ant-radio-button-wrapper',
-      '[role="tab"]',
-      '[class*="category"]',
-      '[class*="Category"]',
-      '[class*="template-title"]',
-      '[class*="TemplateTitle"]'
+    // 特定于账户设置页面的选择器
+    const accountSelectors = [
+      '.account-page', 
+      '.settings-page', 
+      '.profile-page',
+      '.account-section',
+      '.profile-section',
+      '.token-section',
+      '.account-header',
+      '.settings-header',
+      '[class*="account"]',
+      '[class*="profile"]',
+      '[class*="settings"]',
+      '[id*="account"]',
+      '[id*="profile"]',
+      '[id*="settings"]',
+      'form label',
+      'form .form-control',
+      'form input',
+      'form button',
+      '.form-group',
+      '.input-group'
     ];
     
-    specificSelectors.forEach(selector => {
+    accountSelectors.forEach(selector => {
       try {
-        document.querySelectorAll(selector).forEach(el => {
-          if (el.textContent && el.textContent.trim()) {
-            const originalText = el.textContent.trim();
-            const translatedText = translate(originalText);
-            if (translatedText !== originalText) {
-              el.textContent = translatedText;
-            }
-          }
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(el => {
+          // 递归翻译整个元素
+          translateDOMTree(el);
         });
       } catch (e) {
-        console.error(`选择器查询出错: ${selector}`, e);
+        console.error(`账户设置页面选择器查询出错: ${selector}`, e);
       }
     });
   }
-  
-  // 拦截模板API响应
-  function interceptTemplateAPI() {
-    if (!window.fetch) return;
+
+  // 全面翻译当前页面
+  function translateFullPage() {
+    console.log("开始全面翻译页面...");
     
-    const originalFetch = window.fetch;
+    // 1. 先使用特定的React组件选择器
+    translateReactComponents();
     
-    window.fetch = function(url, options) {
-      const promise = originalFetch.apply(this, arguments);
-      
-      if (typeof url === 'string' && url.includes('/api/templates')) {
-        console.log("拦截到模板API请求");
-        
-        promise.then(response => {
-          console.log("模板API请求完成，准备翻译模板");
-          
-          // 稍后翻译
-          setTimeout(() => {
-            console.log("延迟翻译模板...");
-            translateTemplateCards();
-            translateTemplateCategories();
-            translateKeyTerms();
-          }, 500);
-          
-          // 再次延迟翻译
-          setTimeout(() => {
-            console.log("再次延迟翻译模板...");
-            translateTemplateCards();
-            translateTemplateCategories();
-            translateKeyTerms();
-          }, 1500);
-          
-          // 第三次延迟翻译，确保动态加载的内容也被处理
-          setTimeout(() => {
-            console.log("第三次延迟翻译模板...");
-            translateTemplateCards();
-            translateTemplateCategories();
-            translateKeyTerms();
-            
-            // 特别处理选项卡和类别按钮
-            document.querySelectorAll('[role="tab"], .ant-radio-button-wrapper').forEach(el => {
-              if (el.textContent && el.textContent.trim()) {
-                el.textContent = translate(el.textContent.trim());
-              }
-            });
-          }, 3000);
-        });
-      }
-      
-      return promise;
-    };
+    // 2. 特别处理账户设置页面
+    translateAccountSettings();
     
-    console.log("成功拦截模板API请求");
+    // 3. 使用XPath查询特定文本
+    translateKeyTerms();
+    
+    // 4. 递归遍历整个DOM树
+    translateDOMTree(document.body);
   }
   
-  // 监听DOM变化
-  function setupObserver() {
-    if (!window.MutationObserver) return;
+  // 监听DOM变化，自动翻译新元素
+  function setupMutationObserver() {
+    console.log("设置DOM变化监听器...");
     
     const observer = new MutationObserver(mutations => {
-      let shouldTranslate = false;
+      // 跟踪是否有新元素添加或属性变化
+      let hasNewNodes = false;
+      let hasAttributeChanges = false;
       
       mutations.forEach(mutation => {
-        if (mutation.type === 'childList' && mutation.addedNodes.length) {
-          shouldTranslate = true;
+        // 处理新添加的节点
+        if (mutation.addedNodes && mutation.addedNodes.length > 0) {
+          hasNewNodes = true;
+          for (let i = 0; i < mutation.addedNodes.length; i++) {
+            const node = mutation.addedNodes[i];
+            // 如果是元素节点，递归翻译它
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              translateDOMTree(node);
+              
+              // 特别检查是否是账户设置相关元素
+              if (node.classList && Array.from(node.classList).some(cls => 
+                cls.includes('account') || 
+                cls.includes('settings') || 
+                cls.includes('profile') ||
+                cls.includes('token') ||
+                cls.includes('form'))) {
+                translateAccountSettings();
+              }
+              
+              // 特别检查是否是React组件
+              if (node.classList && node.classList.length > 0) {
+                translateReactComponents();
+              }
+            }
+          }
+        }
+        
+        // 处理属性变化
+        if (mutation.type === 'attributes') {
+          hasAttributeChanges = true;
+          const node = mutation.target;
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            const attr = mutation.attributeName;
+            if (['placeholder', 'title', 'aria-label', 'value', 'alt', 'data-original-title'].includes(attr) && node.hasAttribute(attr)) {
+              const value = node.getAttribute(attr);
+              if (value && value.trim() && templateTranslations[value.trim()]) {
+                node.setAttribute(attr, templateTranslations[value.trim()]);
+              } else if (value && value.trim()) {
+                // 尝试部分匹配
+                Object.keys(templateTranslations).forEach(key => {
+                  if (value.includes(key) && key.length > 3) {
+                    node.setAttribute(attr, value.replace(key, templateTranslations[key]));
+                  }
+                });
+              }
+            }
+          }
         }
       });
       
-      if (shouldTranslate) {
+      // 如果有新节点或属性变化，重新扫描页面的某些部分
+      if (hasNewNodes || hasAttributeChanges) {
+        // 仅在需要时进行这些昂贵的操作
         setTimeout(() => {
-          translateTemplateCards();
-          translateTemplateCategories();
+          translateReactComponents();
+          translateAccountSettings();
           translateKeyTerms();
         }, 100);
       }
     });
     
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      characterData: true
-    });
+    // 配置观察选项
+    const config = { 
+      childList: true,       // 观察子节点变化
+      subtree: true,         // 观察所有后代节点
+      attributes: true,      // 观察属性变化
+      characterData: true    // 观察文本内容变化
+    };
     
-    console.log("DOM变化监听器已设置");
+    // 开始观察整个文档
+    observer.observe(document.body, config);
   }
   
-  // 初始化
-  function init() {
-    console.log("初始化模板翻译...");
+  // 定期重新扫描页面，以防某些内容在DOM变化监听器启动前已加载或其他原因未被翻译
+  function setupPeriodicRescan() {
+    console.log("设置定期重新扫描...");
     
-    // 首次翻译
+    // 初始翻译延迟100毫秒，确保页面已加载
     setTimeout(() => {
-      translateTemplateCards();
-      translateTemplateCategories();
-      translateKeyTerms();
-    }, 1000);
+      translateFullPage();
+      
+      // 之后在几个时间点重新运行，确保捕获延迟加载的内容
+      setTimeout(translateFullPage, 500);
+      setTimeout(translateFullPage, 1000);
+      setTimeout(translateFullPage, 2000);
+      
+      // 然后每5秒重新扫描一次
+      setInterval(translateFullPage, 5000);
+    }, 100);
+  }
+  
+  // 初始化翻译功能
+  function initTranslation() {
+    console.log("初始化翻译功能...");
     
-    // 拦截模板API请求
-    interceptTemplateAPI();
-    
-    // 设置DOM变化监听
-    setupObserver();
-    
-    // 定期翻译
-    setInterval(() => {
-      translateTemplateCards();
-      translateTemplateCategories();
-      translateKeyTerms();
-    }, 2000);
-    
-    // 特别处理模板选项卡点击事件
-    setTimeout(() => {
-      const tabButtons = document.querySelectorAll('[role="tab"], .ant-radio-button-wrapper');
-      tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          console.log("检测到选项卡点击，准备翻译新内容");
-          
-          // 在点击后多次尝试翻译，确保动态加载的内容被处理
-          setTimeout(() => translateTemplateCards(), 300);
-          setTimeout(() => translateTemplateCategories(), 400);
-          setTimeout(() => translateKeyTerms(), 500);
-          setTimeout(() => {
-            translateTemplateCards();
-            translateTemplateCategories();
-            translateKeyTerms();
-          }, 1000);
-        });
+    // 页面加载完成后翻译
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      translateFullPage();
+      setupMutationObserver();
+      setupPeriodicRescan();
+    } else {
+      // 等待页面加载完成
+      window.addEventListener('DOMContentLoaded', () => {
+        translateFullPage();
+        setupMutationObserver();
+        setupPeriodicRescan();
       });
-    }, 2000);
+      
+      window.addEventListener('load', () => {
+        translateFullPage();
+        // 页面完全加载后再次翻译，确保捕获所有元素
+        setTimeout(translateFullPage, 500);
+      });
+    }
     
-    console.log("模板翻译初始化完成");
+    // 监听URL变化（SPA应用）
+    let lastUrl = location.href;
+    new MutationObserver(() => {
+      const url = location.href;
+      if (url !== lastUrl) {
+        lastUrl = url;
+        console.log('URL变化，重新翻译页面');
+        // URL变化后延迟翻译，确保新页面已加载
+        setTimeout(translateFullPage, 500);
+        setTimeout(translateFullPage, 1000);
+        setTimeout(translateFullPage, 2000);
+      }
+    }).observe(document, {subtree: true, childList: true});
+    
+    // 监听点击事件
+    document.addEventListener('click', () => {
+      // 点击后延迟执行翻译，捕获可能的弹出框或动态加载内容
+      setTimeout(translateFullPage, 300);
+    });
   }
   
-  // 页面加载完成后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  // 启动翻译功能
+  initTranslation();
 })(); 

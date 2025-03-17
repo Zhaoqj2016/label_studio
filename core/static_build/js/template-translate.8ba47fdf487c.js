@@ -730,96 +730,40 @@
     
     // 新增用户界面术语翻译
     "Account & Settings": "账户与设置",
-    "account & settings": "账户与设置",
-    "Account settings": "账户设置",
-    "account settings": "账户设置",
-    "ACCOUNT SETTINGS": "账户设置",
-    
     "Log Out": "退出登录",
-    "log out": "退出登录",
-    "LOG OUT": "退出登录",
-    "Log out": "退出登录",
     "Logout": "退出登录",
-    "logout": "退出登录",
-    
     "Please check new notification settings in the Account & Settings page": "请在账户与设置页面中查看新的通知设置",
-    
     "Account info": "账户信息",
-    "account info": "账户信息",
-    "ACCOUNT INFO": "账户信息",
     "Account Info": "账户信息",
-    "Account information": "账户信息",
-    
     "First Name": "名字",
-    "first name": "名字",
-    "FIRST NAME": "名字",
-    "First name": "名字",
-    "firstname": "名字",
-    "FirstName": "名字",
-    
     "Last Name": "姓氏",
-    "last name": "姓氏",
-    "LAST NAME": "姓氏",
-    "Last name": "姓氏",
-    "lastname": "姓氏", 
-    "LastName": "姓氏",
-    
     "Phone": "电话",
-    "phone": "电话",
-    "PHONE": "电话",
-    "Phone number": "电话号码",
-    "phone number": "电话号码",
-    
     "Choose file": "选择文件",
-    "choose file": "选择文件",
-    "CHOOSE FILE": "选择文件",
-    "Choose File": "选择文件",
-    "Select file": "选择文件",
-    "select file": "选择文件",
-    
     "Access Token": "访问令牌",
-    "access token": "访问令牌",
-    "ACCESS TOKEN": "访问令牌",
-    "Access token": "访问令牌",
-    "API access token": "API访问令牌",
-    "api access token": "API访问令牌",
-    "API token": "API令牌",
-    "api token": "API令牌",
-    
     "Copy": "复制",
-    "copy": "复制",
-    "COPY": "复制",
-    "Copy to clipboard": "复制到剪贴板",
-    
     "Renew": "更新",
-    "renew": "更新",
-    "RENEW": "更新",
-    "Regenerate": "重新生成",
-    "regenerate": "重新生成",
-    
     "Use this token to authenticate with our API": "使用此令牌验证我们的API",
-    "use this token to authenticate with our api": "使用此令牌验证我们的API",
-    
+    "Use this token to authenticate with our API:": "使用此令牌验证我们的API：",
     "Example fetch projects data": "示例获取项目数据",
-    "example fetch projects data": "示例获取项目数据",
-    
+    "Example fetch projects data:": "示例获取项目数据：",
     "Optional description of your project": "项目的可选描述",
-    "optional description of your project": "项目的可选描述",
-    
     "Upload Files": "上传文件",
-    "upload files": "上传文件",
-    "UPLOAD FILES": "上传文件",
-    "Upload files": "上传文件",
-    
     "Direct media uploads have limitations and we strongly recommend using": "直接媒体上传有限制，我们强烈建议使用",
-    "direct media uploads have limitations and we strongly recommend using": "直接媒体上传有限制，我们强烈建议使用",
-    
-    "List": "列表",
-    "list": "列表",
-    "LIST": "列表",
-    
     "Cloud Storage instead": "云存储代替",
-    "cloud storage instead": "云存储代替",
+    "List": "列表",
+    "E-mail": "电子邮箱",
+    "Save": "保存",
+    "Delete": "删除",
+    "Documentation": "文档",
+    "Your active organization": "您的活跃组织",
+    "Your role": "您的角色",
+    "Annotations completed by you": "您完成的标注",
+    "Projects contributed by you": "您贡献的项目",
+    "Organization ID": "组织ID",
+    "Organization owner": "组织所有者",
+    "Organization created at": "组织创建于",
+    "Registered": "注册于",
+    "user ID": "用户ID",
     
     // 单独的单词也需要翻译
     "Account": "账户",
@@ -846,15 +790,10 @@
     "name": "名称",
     "NAME": "名称",
     
-    "Choose": "选择",
     "choose": "选择",
     "CHOOSE": "选择",
-    
-    "File": "文件",
     "file": "文件",
     "FILE": "文件",
-    
-    "Upload": "上传",
     "upload": "上传",
     "UPLOAD": "上传"
   };
@@ -1188,48 +1127,152 @@
     });
   }
   
-  // 查找并翻译特定的账户设置页面元素
-  function translateAccountSettings() {
+  // 新增一个直接操作账号设置页面的函数
+  function translateAccountSettingsPage() {
     console.log("翻译账户设置页面...");
     
-    // 特定于账户设置页面的选择器
-    const accountSelectors = [
-      '.account-page', 
-      '.settings-page', 
-      '.profile-page',
-      '.account-section',
-      '.profile-section',
-      '.token-section',
-      '.account-header',
-      '.settings-header',
-      '[class*="account"]',
-      '[class*="profile"]',
-      '[class*="settings"]',
-      '[id*="account"]',
-      '[id*="profile"]',
-      '[id*="settings"]',
-      'form label',
-      'form .form-control',
-      'form input',
-      'form button',
-      '.form-group',
-      '.input-group'
-    ];
-    
-    accountSelectors.forEach(selector => {
-      try {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach(el => {
-          // 递归翻译整个元素
-          translateDOMTree(el);
+    // 账户设置页面的特定元素
+    try {
+      // 翻译页面标题
+      document.title = document.title.replace("Account & Settings", "账户与设置");
+      
+      // 翻译面包屑导航
+      document.querySelectorAll('.breadcrumbs__item').forEach(item => {
+        if (item.textContent.trim() === "Account & Settings") {
+          item.textContent = "账户与设置";
+        }
+      });
+      
+      // 翻译导航菜单
+      document.querySelectorAll('a[href*="account"], a[href*="settings"]').forEach(a => {
+        if (a.textContent.trim() === "Account & Settings") {
+          a.textContent = "账户与设置";
+        }
+      });
+      
+      // 翻译退出登录链接
+      document.querySelectorAll('a[href*="logout"]').forEach(a => {
+        if (a.textContent.trim() === "Log Out") {
+          a.textContent = "退出登录";
+        }
+      });
+      
+      // 直接定位页面标题
+      document.querySelectorAll('.account-page header').forEach(header => {
+        const text = header.textContent.trim();
+        if (text === 'Account info') {
+          header.textContent = '账户信息';
+        } else if (text === 'Access Token') {
+          header.textContent = '访问令牌';
+        } else if (text === 'Notifications') {
+          header.textContent = '通知';
+        }
+      });
+      
+      // 直接定位标签
+      document.querySelectorAll('.account-page label, .field label').forEach(label => {
+        const text = label.textContent.trim();
+        if (text === 'E-mail') {
+          label.textContent = '电子邮箱';
+        } else if (text === 'First Name') {
+          label.textContent = '名字';
+        } else if (text === 'Last Name') {
+          label.textContent = '姓氏';
+        } else if (text === 'Phone') {
+          label.textContent = '电话';
+        } else if (text.includes('Use this token to authenticate with our API')) {
+          label.textContent = '使用此令牌验证我们的API：';
+        } else if (text.includes('Example fetch projects data')) {
+          label.textContent = '示例获取项目数据：';
+        }
+      });
+      
+      // 直接定位按钮
+      document.querySelectorAll('.account-page button, button.lsf-button-ls').forEach(button => {
+        const text = button.textContent.trim();
+        if (text === 'Copy') {
+          button.textContent = '复制';
+        } else if (text === 'Renew') {
+          button.textContent = '更新';
+        } else if (text === 'Delete') {
+          button.textContent = '删除';
+        } else if (text === 'Save') {
+          button.textContent = '保存';
+        } else if (text === 'Choose file' || text.includes('Choose')) {
+          button.textContent = '选择文件';
+        } else if (text === 'Upload Files' || text.includes('Upload')) {
+          button.textContent = '上传文件';
+        } else if (text === 'Documentation') {
+          button.textContent = '文档';
+        }
+      });
+      
+      // 处理文件输入框
+      document.querySelectorAll('input[type="file"]').forEach(input => {
+        if (input.value === 'Choose' || input.value.includes('Choose file')) {
+          input.value = '选择文件';
+        }
+      });
+      
+      // 翻译组织部分
+      document.querySelectorAll('.organization sub').forEach(sub => {
+        if (sub.textContent.trim() === "Your active organization") {
+          sub.textContent = "您的活跃组织";
+        }
+      });
+      
+      document.querySelectorAll('.organization table tr').forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length > 0) {
+          const firstCell = cells[0];
+          if (firstCell.textContent.includes("Your role")) {
+            firstCell.textContent = "您的角色";
+          } else if (firstCell.textContent.includes("Annotations completed by you")) {
+            firstCell.textContent = "您完成的标注";
+          } else if (firstCell.textContent.includes("Projects contributed by you")) {
+            firstCell.textContent = "您贡献的项目";
+          } else if (firstCell.textContent.includes("Organization ID")) {
+            firstCell.textContent = "组织ID";
+          } else if (firstCell.textContent.includes("Organization owner")) {
+            firstCell.textContent = "组织所有者";
+          } else if (firstCell.textContent.includes("Organization created at")) {
+            firstCell.textContent = "组织创建于";
+          }
+        }
+      });
+      
+      // 翻译注册信息
+      document.querySelectorAll('.user__info footer p').forEach(p => {
+        if (p.textContent.includes("Registered")) {
+          p.textContent = p.textContent
+            .replace("Registered", "注册于")
+            .replace("user ID", "用户ID");
+        }
+      });
+      
+      // 翻译链接和其他文本
+      document.querySelectorAll('a, p, span, div').forEach(element => {
+        const text = element.textContent.trim();
+        
+        // 检查完整匹配
+        if (templateTranslations[text]) {
+          element.textContent = templateTranslations[text];
+          return;
+        }
+        
+        // 检查部分匹配
+        Object.keys(templateTranslations).forEach(key => {
+          if (text.includes(key) && key.length > 3) {
+            element.textContent = text.replace(key, templateTranslations[key]);
+          }
         });
-      } catch (e) {
-        console.error(`账户设置页面选择器查询出错: ${selector}`, e);
-      }
-    });
+      });
+    } catch (e) {
+      console.error('Account settings direct translation error:', e);
+    }
   }
-
-  // 全面翻译当前页面
+  
+  // 修改全面翻译页面函数，增加额外的处理
   function translateFullPage() {
     console.log("开始全面翻译页面...");
     
@@ -1239,11 +1282,67 @@
     // 2. 特别处理账户设置页面
     translateAccountSettings();
     
-    // 3. 使用XPath查询特定文本
+    // 3. 新增：直接处理账户设置页面的HTML元素
+    translateAccountSettingsPage();
+    
+    // 4. 使用XPath查询特定文本
     translateKeyTerms();
     
-    // 4. 递归遍历整个DOM树
+    // 5. 递归遍历整个DOM树
     translateDOMTree(document.body);
+    
+    // 6. 针对特殊类型的节点进行处理
+    translateSpecialElements();
+  }
+  
+  // 新增处理特殊元素的函数
+  function translateSpecialElements() {
+    // 处理页面顶部导航菜单
+    document.querySelectorAll('a[href*="account"], a[href*="settings"]').forEach(a => {
+      if (a.textContent.trim() === 'Account & Settings') {
+        a.textContent = '账户与设置';
+      }
+    });
+    
+    // 处理退出登录链接
+    document.querySelectorAll('a[href*="logout"]').forEach(a => {
+      if (a.textContent.trim() === 'Log Out') {
+        a.textContent = '退出登录';
+      }
+    });
+    
+    // 处理页面的提示信息
+    document.querySelectorAll('.notification-message, .alert, .message').forEach(elem => {
+      const text = elem.textContent;
+      if (text.includes('Please check new notification settings in the Account & Settings page')) {
+        elem.textContent = text.replace(
+          'Please check new notification settings in the Account & Settings page',
+          '请在账户与设置页面中查看新的通知设置'
+        );
+      }
+    });
+    
+    // 处理项目描述字段
+    document.querySelectorAll('input[placeholder="Optional description of your project"], textarea[placeholder="Optional description of your project"]').forEach(elem => {
+      elem.placeholder = '项目的可选描述';
+    });
+    
+    // 处理直接媒体上传的提示
+    document.querySelectorAll('p, div, span').forEach(elem => {
+      const text = elem.textContent;
+      if (text.includes('Direct media uploads have limitations and we strongly recommend using')) {
+        elem.textContent = text.replace(
+          'Direct media uploads have limitations and we strongly recommend using',
+          '直接媒体上传有限制，我们强烈建议使用'
+        );
+      }
+      if (text.includes('Cloud Storage instead')) {
+        elem.textContent = text.replace(
+          'Cloud Storage instead',
+          '云存储代替'
+        );
+      }
+    });
   }
   
   // 监听DOM变化，自动翻译新元素
@@ -1347,27 +1446,63 @@
     }, 100);
   }
   
-  // 初始化翻译功能
+  // 强化initTranslation函数，确保页面加载后立即启动翻译
   function initTranslation() {
     console.log("初始化翻译功能...");
+    
+    // 优先添加页面加载时的翻译
+    translateFullPage();
+    
+    // 特别处理账户设置页面的加载
+    if (location.href.includes('account') || location.href.includes('settings')) {
+      console.log("检测到账户设置页面，应用特殊翻译...");
+      translateAccountSettingsPage();
+    }
     
     // 页面加载完成后翻译
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
       translateFullPage();
       setupMutationObserver();
       setupPeriodicRescan();
+      
+      // 立即再运行一次，确保覆盖所有元素
+      setTimeout(translateFullPage, 100);
+      
+      // 账户设置页面特殊处理
+      if (location.href.includes('account') || location.href.includes('settings')) {
+        setTimeout(translateAccountSettingsPage, 100);
+        setTimeout(translateAccountSettingsPage, 500);
+        setTimeout(translateAccountSettingsPage, 1000);
+      }
     } else {
       // 等待页面加载完成
       window.addEventListener('DOMContentLoaded', () => {
         translateFullPage();
         setupMutationObserver();
         setupPeriodicRescan();
+        
+        // DOM加载后立即再运行一次
+        setTimeout(translateFullPage, 100);
+        
+        // 账户设置页面特殊处理
+        if (location.href.includes('account') || location.href.includes('settings')) {
+          setTimeout(translateAccountSettingsPage, 100);
+          setTimeout(translateAccountSettingsPage, 500);
+        }
       });
       
       window.addEventListener('load', () => {
         translateFullPage();
         // 页面完全加载后再次翻译，确保捕获所有元素
         setTimeout(translateFullPage, 500);
+        
+        // 账户设置页面特殊处理
+        if (location.href.includes('account') || location.href.includes('settings')) {
+          setTimeout(translateAccountSettingsPage, 100);
+          setTimeout(translateAccountSettingsPage, 500);
+          setTimeout(translateAccountSettingsPage, 1000);
+          setTimeout(translateAccountSettingsPage, 2000);
+        }
       });
     }
     
@@ -1378,17 +1513,30 @@
       if (url !== lastUrl) {
         lastUrl = url;
         console.log('URL变化，重新翻译页面');
-        // URL变化后延迟翻译，确保新页面已加载
+        // URL变化后立即翻译，然后再延迟翻译几次
+        translateFullPage();
         setTimeout(translateFullPage, 500);
-        setTimeout(translateFullPage, 1000);
-        setTimeout(translateFullPage, 2000);
+        
+        // 账户设置页面特殊处理
+        if (url.includes('account') || url.includes('settings')) {
+          translateAccountSettingsPage();
+          setTimeout(translateAccountSettingsPage, 500);
+          setTimeout(translateAccountSettingsPage, 1000);
+        }
       }
     }).observe(document, {subtree: true, childList: true});
     
     // 监听点击事件
     document.addEventListener('click', () => {
-      // 点击后延迟执行翻译，捕获可能的弹出框或动态加载内容
-      setTimeout(translateFullPage, 300);
+      // 点击后立即执行翻译，捕获可能的弹出框或动态加载内容
+      setTimeout(translateFullPage, 100);
+      setTimeout(translateFullPage, 500);
+      
+      // 账户设置页面特殊处理
+      if (location.href.includes('account') || location.href.includes('settings')) {
+        setTimeout(translateAccountSettingsPage, 100);
+        setTimeout(translateAccountSettingsPage, 500);
+      }
     });
   }
   
